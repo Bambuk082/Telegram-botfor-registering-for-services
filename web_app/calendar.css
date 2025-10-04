@@ -1,0 +1,47 @@
+body {
+      background: #121212;
+      color: #eee;
+      font-family: Arial, sans-serif;
+    }
+
+    #calendar {
+      max-width: 900px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      padding: 10px;
+    }
+
+    /* Текст у клітинках */
+    .fc .fc-daygrid-day-number {
+      color: #ddd;
+    }
+
+    /* Дні з іншого місяця */
+    .fc .fc-daygrid-day.fc-day-other .fc-daygrid-day-frame {
+      background: #2a2a2a;
+      opacity: 0.3;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Звичайні дні */
+    .fc .fc-daygrid-day-frame {
+      background: #1e1e1e;
+      border-radius: 6px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    /* Ховер ефект */
+    .fc .fc-daygrid-day-frame:hover {
+      background: #2d2d2d;
+    }
+
+    /* Вибрана дата */
+    .fc-daygrid-day.selected-date .fc-daygrid-day-frame {
+      background: #003a7c !important;
+      border-radius: 0;
+      color: #fff !important;
+    }
