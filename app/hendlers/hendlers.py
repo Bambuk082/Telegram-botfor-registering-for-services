@@ -1,6 +1,9 @@
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import Command, CommandStart
+import json
+import aiosmtplib, asyncio
+from email.message import EmailMessage
 
 from aiogram.fsm.context import FSMContext
 
@@ -164,4 +167,45 @@ async def show_contacts(message: Message, state: FSMContext):
         ))
     else:
         await message.answer(text='Контакти не вказані!')
+    
+@rt.message(F.text == 'Записатись')
+async def record(message: Message, state: FSMContext):
+    await message.answer(text='Переходимо на сторінку запису!', )
+
+
+@rt.message(lambda msg: msg.web_app_data is not None)
+async def date(message: Message, state: FSMContext):
+    data = json.loads(message.web_app_data.data)
+    selected_date = data['date']
+    await rq.fetch_record_date_to_db(message.from_user.id, selected_date)
+    await message.answer(text=f'Вас записано на {selected_date}')
+
+@rt.callback_query(F.data == 'get')
+async def get_record_data_for_admin(callback: CallbackQuery, state: FSMContext):
+    recipient = await rq.get_admin()
+    await send_email(recipient, 'bot.notifications000@gmail.com')
+    await callback.answer(text='Дані відправлено')
+    await callback.message.answer(text='Дані відправлено', reply_markup= kb.menu_to_keyboard['menu'](await rq.get_status(callback.from_user.id)))
+    
+
+async def send_email(recipient, from_: str):
+    
+    mess = EmailMessage()
+    mess['from'] = from_
+    mess['To'] = recipient['email'] 
+    mess['Subject'] = 'Записи на послугу'
+    mess.set_content(await rq.get_record_date())
+
+    await aiosmtplib.send(
+        mess,
+        hostname='smtp.gmail.com',
+        port=465,
+        username=from_,
+        password='kbkb ezqa sgpu sajq',
+        use_tls=True,
+        )
+
+
+
+
     

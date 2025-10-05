@@ -17,6 +17,8 @@ class User(Base):
     first_name: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     phone_number: Mapped[str] = mapped_column(String, nullable=True, unique=True, default=None)
 
+    record_date: Mapped[str] = mapped_column(String, nullable=True, default=None, unique=False)
+
     status: Mapped[str] = mapped_column(String, nullable=False, default='user')
     is_admin: Mapped[bool] = mapped_column(default=False)
 
@@ -28,12 +30,5 @@ class User(Base):
     queue_registration_to_back: Mapped[list] = mapped_column(JSON, nullable=True, default=[])
     change_data: Mapped[list] = mapped_column(JSON, nullable=True, default=[])
 
-class Day(Base):
-    __tablename__ = 'days'
-
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
-    hour: Mapped[int] = mapped_column(nullable=False)
-    minut: Mapped[int] = mapped_column(nullable=False)
-    day_of_the_week: Mapped[str] = mapped_column(nullable=False, default=get_weekday, onupdate=get_weekday)
 
 

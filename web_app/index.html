@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <title>Запис на послуги</title>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="calendar.css">
-  <script src="record.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-  <title>Заспис</title>
 </head>
 <body>
+  <!-- Кастомна шапка -->
+  <div class="calendar-header">
+    <button id="prev"><strong>Назад</strong></button>
+    <span id="month-label"></span>
+    <button id="next"><strong>Вперед</strong></button>
+  </div>
+
+  <!-- Календар FullCalendar -->
   <div id="calendar"></div>
 
-  
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+  <script src="record.js"></script>
 </body>
 </html>

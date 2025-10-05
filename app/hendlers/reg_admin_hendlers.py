@@ -14,7 +14,7 @@ from .hendlers import back
 
 admin_rt = Router()
 
-@admin_rt.message(F.text == 'Створити адміністратора')
+@admin_rt.message(F.text.in_({'Створити адміністратора', 'Перезаписати адміністратора'}))
 async def create_admin(message: Message, state: FSMContext):
     await state.set_state(reg.Reg_admin.name)
     menu = kb.menu_to_keyboard['name_reply'](await rq.get_status(message.from_user.id))
@@ -100,7 +100,7 @@ async def confirm_registration(callback: CallbackQuery, state: FSMContext):
     'phone_number': phone_number if phone_number is not None else data_in_db.get('phone_number'),
     'email': email if email is not None else data_in_db.get('email'), 
     }
-
+    await rq.re_register_admin(callback.from_user.id)
     await rq.save_data_to_db(new_data, callback.from_user.id, is_admin=True)
     await callback.answer(text='Реєстрацію підтверджено',)
     await callback.message.delete_reply_markup()
@@ -207,4 +207,7 @@ async def new_email(message: Message, state: FSMContext):
             ), reply_markup= kb.menu_to_keyboard['registration_admin_end']())
     await rq.change_list_steps(tg_id=message.from_user.id, parametrs=None, my_list='change_data', action='clear')
 
-
+@admin_rt.message(F.text == 'Для адміністратора')
+async def get_record_data_for_admin(message: Message, state: FSMContext):
+    await message.answer(text='Щоб отримати дані зіписів натисніть на "Отримати"', reply_markup= kb.menu_to_keyboard['get_record_date']())
+    await rq.change_list_steps(tg_id=message.from_user.id, parametrs=['get_record_date'], my_list='back', action='append')

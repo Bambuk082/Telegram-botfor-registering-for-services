@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
+from aiogram.types.web_app_info import WebAppInfo
 from database.models import User
 
  
@@ -20,7 +21,7 @@ def change_data():
 def menu(status: str):
     kb = ReplyKeyboardBuilder()
     if not status == 'admin':
-        kb.add(KeyboardButton(text='Записатись'))
+        kb.add(KeyboardButton(text='Записатись', web_app=WebAppInfo(url='https://bambuk082.github.io/site-for-tg-bot/')))
     
     kb.button(text='Мій профіль')
     kb.button(text='Контакти')
@@ -36,7 +37,8 @@ def menu(status: str):
 
 def admin_menu(admin_is_created):
     kb = ReplyKeyboardBuilder()
-    kb.button(text='Перезаписати адміністратора')
+    if admin_is_created:
+        kb.button(text='Перезаписати адміністратора')
     
     if not admin_is_created:
         kb.add(KeyboardButton(text='Створити адміністратора'))
@@ -126,3 +128,9 @@ class Reg_menu():
         return kb.adjust().as_markup(resize_keyboard=True)
 
 
+def get_record_date():
+    kb = InlineKeyboardBuilder()
+    kb.button(text='Отримати', callback_data='get')
+    kb.button(text='Назад🔙', callback_data='back')
+    
+    return kb.adjust(2).as_markup()

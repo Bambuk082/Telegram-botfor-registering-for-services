@@ -4,6 +4,7 @@ menu_to_keyboard = {
     'start': kb.start_kb,
     'menu': kb.menu,
     'admin_menu': kb.admin_menu,
+    'get_record_date': kb.get_record_date,
 
     'change_data': kb.change_data,
     'change_data_admin': kb.change_data_admin,
